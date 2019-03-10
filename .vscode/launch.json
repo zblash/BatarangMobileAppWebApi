@@ -1,0 +1,11 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - ApiApplication",
+            "request": "launch",
+            "mainClass": "com.batarang.api.ApiApplication",
+            "projectName": "api"
+        }
+    ]
+}

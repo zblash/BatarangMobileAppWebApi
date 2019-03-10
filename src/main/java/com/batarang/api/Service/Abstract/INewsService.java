@@ -3,6 +3,7 @@ package com.batarang.api.Service.Abstract;
 import com.batarang.api.Model.News;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface INewsService {
 

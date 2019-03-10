@@ -2,30 +2,36 @@ package com.batarang.api.Model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "news")
 public class News {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @NotNull
     private String title;
 
+    @NotNull
     private String description;
+
+    @NotNull
+    private transient Long category_id;
 
     @ManyToOne
     @JoinColumn(name = "category_id")
     @JsonIgnore
     private Category category;
 
-    public News(Long id, String title, String description, Category category) {
-        this.id = id;
-        this.title = title;
-        this.description = description;
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
         this.category = category;
     }
 
@@ -53,20 +59,19 @@ public class News {
         this.description = description;
     }
 
-    public Category getCategory() {
-        return category;
+    public Long getCategory_id() {
+        return category_id;
     }
 
-    public void setCategory(Category category) {
-        this.category = category;
+    public void setCategory_id(Long category_id) {
+        this.category_id = category_id;
     }
 
     @Override
     public String toString() {
-        return "News{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", description='" + description + '\'' +
-                '}';
+        return "News [id=" + id + ", title=" + title + ", description=" + description + "]";
     }
+
+
+
 }
