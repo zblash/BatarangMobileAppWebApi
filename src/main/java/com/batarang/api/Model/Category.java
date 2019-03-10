@@ -16,8 +16,15 @@ public class Category {
     private String description;
 
     @OneToMany(mappedBy = "category")
-    private Set<News> news = new HashSet<>();
+    private Set<News> newses = new HashSet<>();
 
+    public void addNews(News news){
+        newses.add(news);
+    }
+
+    public void removeNews(News news){
+        newses.remove(news);
+    }
 
     public Long getId() {
         return id;
@@ -43,12 +50,12 @@ public class Category {
         this.description = description;
     }
 
-    public Set<News> getNews() {
-        return news;
+    public Set<News> getNewses() {
+        return newses;
     }
 
-    public void setNews(Set<News> news) {
-        this.news = news;
+    public void setNewses(Set<News> newses) {
+        this.newses = newses;
     }
 
     @Override

@@ -37,11 +37,11 @@ public class NewsService implements INewsService {
     }
 
     @Override
-    public void Add(News entity) throws ResourceNotFoundException {
+    public News Add(News entity) throws ResourceNotFoundException {
 
         entity.setCategory(categoryRepository.findById(entity.getCategory_id())
                 .orElseThrow(() -> new ResourceNotFoundException("There is no category with id:"+entity.getCategory_id().toString())));
-        newsRepository.save(entity);
+        return newsRepository.save(entity);
 
     }
 

@@ -13,7 +13,7 @@ public interface INewsService {
 
         News findById(Long newsId);
 
-        void Add(News entity);
+        News Add(News entity);
 
         News Update(News news, News updatedNews);
 

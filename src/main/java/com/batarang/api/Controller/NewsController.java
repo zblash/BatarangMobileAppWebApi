@@ -1,6 +1,5 @@
 package com.batarang.api.Controller;
 
-import com.batarang.api.Exceptions.ErrorResponse;
 import com.batarang.api.Model.News;
 import com.batarang.api.Service.Concrete.NewsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,8 +38,7 @@ public class NewsController {
 
     @PostMapping("/add")
     public News createNews(@Valid @RequestBody News news){
-        newsService.Add(news);
-        return news;
+        return newsService.Add(news);
     }
 
     @DeleteMapping("/delete/{id}")

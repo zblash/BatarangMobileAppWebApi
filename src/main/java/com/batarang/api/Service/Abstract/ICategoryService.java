@@ -6,14 +6,14 @@ import java.util.List;
 
 public interface ICategoryService {
 
-    public List<Category> findAll();
+    List<Category> findAll();
 
-    public Category findById(Long newsId);
+    Category findById(Long categoryId);
 
-    public void Add(Category entity);
+    Category Add(Category category);
 
-    public Category Update(Category entity);
+    Category Update(Category category,Category updatedCategory);
 
-    public void Delete(Category entity);
+    void Delete(Category category);
 
 }
