@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "news")
@@ -26,6 +28,9 @@ public class News {
     @JoinColumn(name = "category_id")
     @JsonIgnore
     private Category category;
+
+    @OneToMany(mappedBy = "news",cascade = CascadeType.REMOVE,orphanRemoval = true,fetch = FetchType.EAGER)
+    private Set<Photo> photos = new HashSet<>();
 
     public Category getCategory() {
         return category;
