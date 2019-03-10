@@ -1,7 +1,6 @@
 package com.batarang.api.Service.Concrete;
 
-import com.batarang.api.Exceptions.CategoryNotFoundException;
-import com.batarang.api.Exceptions.NewsNotFoundException;
+import com.batarang.api.Exceptions.ResourceNotFoundException;
 import com.batarang.api.Model.News;
 import com.batarang.api.Repository.CategoryRepository;
 import com.batarang.api.Repository.NewsRepository;
@@ -10,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class NewsService implements INewsService {
@@ -28,32 +26,33 @@ public class NewsService implements INewsService {
 
     @Override
     public List<News> findByCategory(Long categoryId) {
-        return newsRepository.findByCategoryId(categoryId);
+        return newsRepository.findByCategoryId(categoryId)
+                .orElseThrow(() -> new ResourceNotFoundException("There is no category with id:"+categoryId.toString()));
     }
 
     @Override
-    public News findById(Long newsId) {
-        Optional<News> news = newsRepository.findById(newsId);
-        try {
-            if (!news.isPresent())
-                throw new NewsNotFoundException();
-            return news.get();
-        } catch (Exception ex) {
-            throw new NewsNotFoundException();
-        }
+    public News findById(Long newsId) throws ResourceNotFoundException {
+        return newsRepository.findById(newsId)
+                .orElseThrow(() -> new ResourceNotFoundException("There is no news with id:"+newsId.toString()));
     }
 
     @Override
-    public void Add(News entity) {
+    public void Add(News entity) throws ResourceNotFoundException {
 
-        entity.setCategory(categoryRepository.findById(entity.getCategory_id()).orElseThrow(CategoryNotFoundException::new));
+        entity.setCategory(categoryRepository.findById(entity.getCategory_id())
+                .orElseThrow(() -> new ResourceNotFoundException("There is no category with id:"+entity.getCategory_id().toString())));
         newsRepository.save(entity);
 
     }
 
     @Override
-    public News Update(News entity) {
-        return newsRepository.save(entity);
+    public News Update(News news, News updatedNews) throws ResourceNotFoundException {
+
+        news.setTitle(updatedNews.getTitle());
+        news.setDescription(updatedNews.getDescription());
+        news.setCategory(categoryRepository.findById(updatedNews.getCategory_id())
+                .orElseThrow(() -> new ResourceNotFoundException("There is no category with id:"+updatedNews.getCategory_id().toString())));
+        return newsRepository.save(news);
     }
 
     @Override

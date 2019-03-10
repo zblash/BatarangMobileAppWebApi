@@ -7,17 +7,17 @@ import java.util.Optional;
 
 public interface INewsService {
 
-        public List<News> findAll();
+        List<News> findAll();
 
-        public List<News> findByCategory(Long categoryId);
+        List<News> findByCategory(Long categoryId);
 
-        public News findById(Long newsId);
+        News findById(Long newsId);
 
-        public void Add(News entity);
+        void Add(News entity);
 
-        public News Update(News entity);
+        News Update(News news, News updatedNews);
 
-        public void Delete(News entity);
+        void Delete(News entity);
 
     }
 

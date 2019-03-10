@@ -1,7 +1,6 @@
 package com.batarang.api.Controller;
 
 import com.batarang.api.Exceptions.ErrorResponse;
-import com.batarang.api.Exceptions.NewsNotFoundException;
 import com.batarang.api.Model.News;
 import com.batarang.api.Service.Concrete.NewsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,9 +9,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/news")
@@ -22,13 +21,20 @@ public class NewsController {
     private NewsService newsService;
 
     @GetMapping("/")
+    @ResponseStatus(HttpStatus.OK)
     public List<News> getAll(){
         return newsService.findAll();
     }
 
     @GetMapping("/{id}")
-    public News getById(@PathVariable(name = "id") String id){
-        return newsService.findById(Long.valueOf(id));
+    public ResponseEntity<News> getById(@PathVariable Long id){
+
+        return ResponseEntity.ok(newsService.findById(id));
+    }
+
+    @GetMapping("/bycategory/{id}")
+    public List<News> getByCategory(@PathVariable Long id){
+        return newsService.findByCategory(id);
     }
 
     @PostMapping("/add")
@@ -37,10 +43,21 @@ public class NewsController {
         return news;
     }
 
-    @ExceptionHandler
-    public ResponseEntity<?> handleNewsNotFound(Exception exception){
-        ErrorResponse response = new ErrorResponse(exception.getMessage(), HttpStatus.NOT_FOUND.toString(),new Date());
-        return new ResponseEntity<ErrorResponse>(response,HttpStatus.NOT_FOUND);
+    @DeleteMapping("/delete/{id}")
+    public Map<String,News> deleteNews(@PathVariable(value = "id") Long id){
+        News news = newsService.findById(id);
+        newsService.Delete(news);
+        Map<String,News> response = new HashMap<>();
+        response.put("deleted",news);
+        return response;
     }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<News> updateNews(@PathVariable(value = "id") Long id,@Valid @RequestBody News updatednews){
+
+        News news = newsService.findById(id);
+        return ResponseEntity.ok(newsService.Update(news,updatednews));
+    }
+
 
 }
