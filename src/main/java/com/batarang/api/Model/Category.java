@@ -15,7 +15,7 @@ public class Category {
 
     private String description;
 
-    @OneToMany(mappedBy = "category")
+    @OneToMany(mappedBy = "category",cascade = CascadeType.REMOVE,orphanRemoval = true)
     private Set<News> newses = new HashSet<>();
 
     public void addNews(News news){

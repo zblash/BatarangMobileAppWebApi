@@ -15,7 +15,7 @@ public class Role {
     @NotNull
     private String roleName;
 
-    @ManyToMany(mappedBy = "roles",fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "roles",fetch = FetchType.EAGER)
     private Set<User> users;
 
     public Role(@NotNull String roleName, Set<User> users) {

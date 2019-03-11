@@ -30,15 +30,15 @@ public class JWTAuthenticationProvider extends AbstractUserDetailsAuthentication
         JWTAuthToken jwtAuthenticationToken = (JWTAuthToken) authentication;
         String token = jwtAuthenticationToken.getToken();
 
-        User jwtUser = validator.validate(token);
+        User user = validator.validate(token);
 
-        if (jwtUser == null) {
+        if (user == null) {
             throw new RuntimeException("JWT Token is incorrect");
         }
 
         List<GrantedAuthority> grantedAuthorities = AuthorityUtils
-                .commaSeparatedStringToAuthorityList(jwtUser.getRole());
-        return new CustomPrincipal(jwtUser.getUserName(), jwtUser.getId(), token, grantedAuthorities);
+                .commaSeparatedStringToAuthorityList(user.getRole().getRoleName());
+        return new CustomPrincipal(user.getUserName(), user.getId(), token, grantedAuthorities);
     }
 
     @Override
@@ -47,4 +47,4 @@ public class JWTAuthenticationProvider extends AbstractUserDetailsAuthentication
     }
 
 }
-}
+

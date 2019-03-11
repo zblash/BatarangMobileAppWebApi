@@ -1,5 +1,7 @@
 package com.batarang.api.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
@@ -37,34 +39,27 @@ public class User {
 
     private String resetToken;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "user_role",
-            joinColumns =
-            @JoinColumn(name = "user_id", referencedColumnName = "id"),
-            inverseJoinColumns =
-            @JoinColumn(name = "role_id", referencedColumnName = "id"))
-    private Set<Role> roles = new HashSet<>();
+    @ManyToOne
+    @JoinColumn(name = "role_id")
+    @JsonIgnore
+    private Role role;
 
+    @Transient
+    private Long roleId;
 
-    public void addRole(Role role) {
-        roles.add(role);
-    }
-
-    public void removeRole(Role role) {
-        roles.remove(role);
-    }
 
     public User() {
     }
 
-    public User(@NotNull @Size(min = 3, max = 25) String userName, @Email @NotNull String email, @NotNull @Size(min = 3, max = 25) String firstName, @NotNull @Size(min = 3, max = 25) String lastName, @NotNull @Size(min = 5, max = 90) String password, String resetToken, Set<Role> roles) {
+    public User(@NotNull @Size(min = 3, max = 25) String userName, @Email @NotNull String email, @NotNull @Size(min = 3, max = 25) String firstName, @NotNull @Size(min = 3, max = 25) String lastName, @NotNull @Size(min = 5, max = 90) String password, String resetToken, Role role, Long roleId) {
         this.userName = userName;
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
         this.password = password;
         this.resetToken = resetToken;
-        this.roles = roles;
+        this.role = role;
+        this.roleId = roleId;
     }
 
     public Long getId() {
@@ -123,11 +118,19 @@ public class User {
         this.resetToken = resetToken;
     }
 
-    public Set<Role> getRoles() {
-        return roles;
+    public Role getRole() {
+        return role;
     }
 
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    public Long getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(Long roleId) {
+        this.roleId = roleId;
     }
 }
