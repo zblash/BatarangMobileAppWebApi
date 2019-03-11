@@ -2,14 +2,18 @@ package com.batarang.api.Security;
 
 import com.batarang.api.Model.User;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
 public class JWTValidator {
 
-
-    private String secret = "fenerbahce";
+    Logger logger = LoggerFactory.getLogger(JWTValidator.class);
+    private String secret = "cokkgizli";
 
     public User validate(String token) {
 
@@ -24,8 +28,9 @@ public class JWTValidator {
 
             jwtUser.setUserName(body.getSubject());
         }
-        catch (Exception e) {
-            System.out.println(e);
+        catch (ExpiredJwtException | SignatureException e) {
+            logger.error(e.getMessage());
+
         }
 
         return jwtUser;
