@@ -2,11 +2,12 @@ package com.batarang.api.Model;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.Set;
 
 @Entity
 @Table(name = "roles")
-public class Role {
+public class Role implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -15,7 +16,7 @@ public class Role {
     @NotNull
     private String roleName;
 
-    @OneToMany(mappedBy = "roles",fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "role",fetch = FetchType.EAGER)
     private Set<User> users;
 
     public Role(@NotNull String roleName, Set<User> users) {

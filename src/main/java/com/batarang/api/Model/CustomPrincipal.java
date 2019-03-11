@@ -1,8 +1,10 @@
 package com.batarang.api.Model;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -10,7 +12,9 @@ public class CustomPrincipal implements UserDetails {
     private String userName;
     private String token;
     private Long id;
-    private Collection<? extends GrantedAuthority> authorities;
+    private String password;
+    private User user;
+    private Collection<GrantedAuthority> authorities;
 
 
     public CustomPrincipal(String userName, long id, String token, List<GrantedAuthority> grantedAuthorities) {
@@ -21,6 +25,15 @@ public class CustomPrincipal implements UserDetails {
         this.authorities = grantedAuthorities;
     }
 
+    public CustomPrincipal(User user) {
+        this.user = user;
+        this.userName = user.getUserName();
+        this.id = user.getId();
+        this.password = user.getPassword();
+        authorities = new ArrayList<>();
+        authorities.add(new SimpleGrantedAuthority(user.getRole().getRoleName()));
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return authorities;
@@ -28,7 +41,7 @@ public class CustomPrincipal implements UserDetails {
 
     @Override
     public String getPassword() {
-        return null;
+        return password;
     }
 
     @Override
@@ -70,4 +83,11 @@ public class CustomPrincipal implements UserDetails {
         return id;
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 }

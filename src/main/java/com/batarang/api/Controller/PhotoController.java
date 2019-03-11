@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 @Validated
-@RestController
+@RestController("/api/photo")
 public class PhotoController {
 
     @Autowired

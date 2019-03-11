@@ -4,9 +4,11 @@ import com.batarang.api.Model.Role;
 import com.batarang.api.Repository.RoleRepository;
 import com.batarang.api.Service.Abstract.IRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class RoleService implements IRoleService {
 
     @Autowired
@@ -38,4 +40,5 @@ public class RoleService implements IRoleService {
         role.setUsers(updatedRole.getUsers());
         return roleRepository.save(role);
     }
+
 }

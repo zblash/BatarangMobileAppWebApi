@@ -19,7 +19,7 @@ public class NewsController {
     @Autowired
     private NewsService newsService;
 
-    @GetMapping("/")
+    @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<News> getAll(){
         return newsService.findAll();

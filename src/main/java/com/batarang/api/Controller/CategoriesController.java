@@ -19,7 +19,7 @@ public class CategoriesController {
     @Autowired
     private CategoryService categoryService;
 
-    @GetMapping("/")
+    @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<Category> getAll(){
         return categoryService.findAll();

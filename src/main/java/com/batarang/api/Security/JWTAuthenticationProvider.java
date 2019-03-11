@@ -2,6 +2,8 @@ package com.batarang.api.Security;
 
 import com.batarang.api.Model.CustomPrincipal;
 import com.batarang.api.Model.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.dao.AbstractUserDetailsAuthenticationProvider;
@@ -19,6 +21,7 @@ public class JWTAuthenticationProvider extends AbstractUserDetailsAuthentication
     @Autowired
     private JWTValidator validator;
 
+    private final Logger logger = LoggerFactory.getLogger(JWTAuthenticationProvider.class);
     @Override
     protected void additionalAuthenticationChecks(UserDetails userDetails, UsernamePasswordAuthenticationToken authentication) throws AuthenticationException {
 
@@ -31,7 +34,6 @@ public class JWTAuthenticationProvider extends AbstractUserDetailsAuthentication
         String token = jwtAuthenticationToken.getToken();
 
         User user = validator.validate(token);
-
         if (user == null) {
             throw new RuntimeException("JWT Token is incorrect");
         }

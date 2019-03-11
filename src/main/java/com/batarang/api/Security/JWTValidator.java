@@ -1,5 +1,6 @@
 package com.batarang.api.Security;
 
+import com.batarang.api.Model.Role;
 import com.batarang.api.Model.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -7,7 +8,6 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -29,6 +29,8 @@ public class JWTValidator {
             user = new User();
 
             user.setUserName(body.getSubject());
+            user.setRole((Role) body.get("role"));
+            user.setId(Long.parseLong((String) body.get("userId")));
         }
         catch (ExpiredJwtException | SignatureException e) {
             logger.error(e.getMessage());

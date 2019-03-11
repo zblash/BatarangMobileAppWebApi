@@ -1,28 +1,24 @@
 package com.batarang.api.Security;
 
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
 
 public class JWTAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
 
+    private final Logger logger = LoggerFactory.getLogger(JWTAuthenticationFilter.class);
     public JWTAuthenticationFilter() {
-        super("/api**");
+        super("/api/**");
+        logger.info("filterdayim");
     }
 
         @Override
@@ -37,8 +33,15 @@ public class JWTAuthenticationFilter extends AbstractAuthenticationProcessingFil
             }
 
             String authenticationToken = header.substring(7);
-
             JWTAuthToken token = new JWTAuthToken(authenticationToken);
             return getAuthenticationManager().authenticate(token);
         }
+
+    @Override
+    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult)
+            throws IOException, ServletException {
+        super.successfulAuthentication(request, response, chain, authResult);
+
+        chain.doFilter(request, response);
     }
+}
