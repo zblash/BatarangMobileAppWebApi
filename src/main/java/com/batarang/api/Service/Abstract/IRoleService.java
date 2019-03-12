@@ -15,4 +15,6 @@ public interface IRoleService {
     void Delete(Role role);
 
     Role Update(Role role, Role updatedRole);
+
+    Role findByRoleName(String roleName);
 }

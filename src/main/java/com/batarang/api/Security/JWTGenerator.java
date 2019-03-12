@@ -17,7 +17,7 @@ public class JWTGenerator {
 
         Claims claims = Jwts.claims()
                 .setSubject(jwtUser.getUserName());
-        claims.put("role", jwtUser.getRole());
+        claims.put("role", jwtUser.getRole().getRoleName());
         claims.put("userId", jwtUser.getId());
 
         String j = Jwts.builder()

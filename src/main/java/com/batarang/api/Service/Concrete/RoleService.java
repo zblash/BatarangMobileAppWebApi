@@ -41,4 +41,8 @@ public class RoleService implements IRoleService {
         return roleRepository.save(role);
     }
 
+    @Override
+    public Role findByRoleName(String roleName){
+        return roleRepository.findByRoleName(roleName).orElseThrow(RuntimeException::new);
+    }
 }
