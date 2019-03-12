@@ -1,4 +1,4 @@
-package com.batarang.api.Security;
+package com.batarang.api.Security.JWTAuthentication;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -14,6 +14,6 @@ public class JWTSuccessHandler implements AuthenticationSuccessHandler {
     @Override
     public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,
                                         Authentication authentication) throws IOException, ServletException {
-        System.out.println("Successfully authenticated....");
+        System.out.println("Successfully authenticated");
     }
 }

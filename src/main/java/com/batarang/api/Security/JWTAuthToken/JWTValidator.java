@@ -1,6 +1,5 @@
-package com.batarang.api.Security;
+package com.batarang.api.Security.JWTAuthToken;
 
-import com.batarang.api.Model.Role;
 import com.batarang.api.Model.User;
 import com.batarang.api.Service.Concrete.RoleService;
 import io.jsonwebtoken.Claims;
@@ -37,8 +36,7 @@ public class JWTValidator {
             user.setId(Long.parseLong(body.get("userId").toString()));
         }
         catch (ExpiredJwtException | SignatureException e) {
-            logger.error(e.getMessage());
-
+            throw e;
         }
 
         return user;

@@ -1,4 +1,4 @@
-package com.batarang.api.Security;
+package com.batarang.api.Security.JWTAuthToken;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

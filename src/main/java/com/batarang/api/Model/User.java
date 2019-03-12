@@ -1,13 +1,13 @@
 package com.batarang.api.Model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonView;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -35,18 +35,12 @@ public class User {
 
     @NotNull
     @Size(min = 5, max = 90)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
-
-    private String resetToken;
 
     @ManyToOne
     @JoinColumn(name = "role_id")
-    @JsonIgnore
     private Role role;
-
-    @Transient
-    private Long roleId;
-
 
     public User() {
     }
@@ -57,9 +51,7 @@ public class User {
         this.firstName = firstName;
         this.lastName = lastName;
         this.password = password;
-        this.resetToken = resetToken;
         this.role = role;
-        this.roleId = roleId;
     }
 
     public Long getId() {
@@ -110,14 +102,6 @@ public class User {
         this.password = password;
     }
 
-    public String getResetToken() {
-        return resetToken;
-    }
-
-    public void setResetToken(String resetToken) {
-        this.resetToken = resetToken;
-    }
-
     public Role getRole() {
         return role;
     }
@@ -126,11 +110,4 @@ public class User {
         this.role = role;
     }
 
-    public Long getRoleId() {
-        return roleId;
-    }
-
-    public void setRoleId(Long roleId) {
-        this.roleId = roleId;
-    }
 }

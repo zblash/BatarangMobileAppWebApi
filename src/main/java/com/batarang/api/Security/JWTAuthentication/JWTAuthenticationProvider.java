@@ -1,10 +1,13 @@
-package com.batarang.api.Security;
+package com.batarang.api.Security.JWTAuthentication;
 
 import com.batarang.api.Model.CustomPrincipal;
 import com.batarang.api.Model.User;
+import com.batarang.api.Security.JWTAuthToken.JWTAuthToken;
+import com.batarang.api.Security.JWTAuthToken.JWTValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.dao.AbstractUserDetailsAuthenticationProvider;
 import org.springframework.security.core.AuthenticationException;
@@ -35,7 +38,7 @@ public class JWTAuthenticationProvider extends AbstractUserDetailsAuthentication
 
         User user = validator.validate(token);
         if (user == null) {
-            throw new RuntimeException("JWT Token is incorrect");
+            throw new AuthenticationCredentialsNotFoundException("JWT Token is incorrect");
         }
 
         List<GrantedAuthority> grantedAuthorities = AuthorityUtils

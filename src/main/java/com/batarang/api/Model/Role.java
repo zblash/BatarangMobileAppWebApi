@@ -1,5 +1,7 @@
 package com.batarang.api.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -17,6 +19,7 @@ public class Role implements Serializable {
     private String roleName;
 
     @OneToMany(mappedBy = "role",fetch = FetchType.EAGER)
+    @JsonIgnore
     private Set<User> users;
 
     public Role(@NotNull String roleName, Set<User> users) {

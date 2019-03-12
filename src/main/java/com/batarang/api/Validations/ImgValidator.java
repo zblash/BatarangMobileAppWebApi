@@ -19,7 +19,7 @@ public class ImgValidator implements ConstraintValidator<ValidImg, MultipartFile
         if (isSupportedContentType(multipartFile.getContentType())) return true;
         context.disableDefaultConstraintViolation();
         context.buildConstraintViolationWithTemplate(
-                "Sadece Image tipi dosyalar yükleyebilirsiniz.")
+                "Invalid file type.You can only upload the img type files.")
                 .addConstraintViolation();
         return false;
     }

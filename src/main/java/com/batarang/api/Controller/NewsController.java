@@ -5,6 +5,7 @@ import com.batarang.api.Service.Concrete.NewsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -20,7 +21,6 @@ public class NewsController {
     private NewsService newsService;
 
     @GetMapping
-    @ResponseStatus(HttpStatus.OK)
     public List<News> getAll(){
         return newsService.findAll();
     }
@@ -37,11 +37,13 @@ public class NewsController {
     }
 
     @PostMapping("/add")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public News createNews(@Valid @RequestBody News news){
         return newsService.Add(news);
     }
 
     @DeleteMapping("/delete/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public Map<String,News> deleteNews(@PathVariable(value = "id") Long id){
         News news = newsService.findById(id);
         newsService.Delete(news);
@@ -51,6 +53,7 @@ public class NewsController {
     }
 
     @PutMapping("/update/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<News> updateNews(@PathVariable(value = "id") Long id,@Valid @RequestBody News updatednews){
 
         News news = newsService.findById(id);

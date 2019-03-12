@@ -1,9 +1,12 @@
 package com.batarang.api.Security;
 
+import com.batarang.api.Security.JWTAuthentication.JWTAuthEntryPoint;
+import com.batarang.api.Security.JWTAuthentication.JWTAuthenticationFilter;
+import com.batarang.api.Security.JWTAuthentication.JWTAuthenticationProvider;
+import com.batarang.api.Security.JWTAuthentication.JWTSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -24,6 +27,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private JWTAuthenticationProvider autheticationProvider;
+
+    @Autowired
+    private JWTAuthEntryPoint authEntryPoint;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -49,6 +55,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.csrf().disable()
                 .authorizeRequests().antMatchers("**/**").authenticated()
+                .and()
+                .exceptionHandling().authenticationEntryPoint(authEntryPoint)
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 

@@ -1,4 +1,4 @@
-package com.batarang.api.Security;
+package com.batarang.api.Security.JWTAuthToken;
 
 import com.batarang.api.Model.User;
 import io.jsonwebtoken.Claims;

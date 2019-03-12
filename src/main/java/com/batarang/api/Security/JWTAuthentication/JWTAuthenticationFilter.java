@@ -1,11 +1,11 @@
-package com.batarang.api.Security;
+package com.batarang.api.Security.JWTAuthentication;
 
+import com.batarang.api.Security.JWTAuthToken.JWTAuthToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -18,7 +18,6 @@ public class JWTAuthenticationFilter extends AbstractAuthenticationProcessingFil
     private final Logger logger = LoggerFactory.getLogger(JWTAuthenticationFilter.class);
     public JWTAuthenticationFilter() {
         super("/api/**");
-        logger.info("filterdayim");
     }
 
         @Override

@@ -1,6 +1,8 @@
 package com.batarang.api.Service.Concrete;
 
+import com.batarang.api.Model.Role;
 import com.batarang.api.Model.User;
+import com.batarang.api.Repository.RoleRepository;
 import com.batarang.api.Repository.UserRepository;
 import com.batarang.api.Service.Abstract.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,9 @@ public class UserService implements IUserService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private RoleRepository roleRepository;
 
 
     @Override
@@ -36,6 +41,10 @@ public class UserService implements IUserService {
 
     @Override
     public User Add(User user) {
+        Role role = new Role();
+        role.setRoleName("ROLE_USER");
+        roleRepository.save(role);
+        user.setRole(role);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }

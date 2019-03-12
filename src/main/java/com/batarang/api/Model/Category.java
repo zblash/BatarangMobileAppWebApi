@@ -1,6 +1,7 @@
 package com.batarang.api.Model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -11,8 +12,10 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @NotNull
     private String name;
 
+    @NotNull
     private String description;
 
     @OneToMany(mappedBy = "category",cascade = CascadeType.REMOVE,orphanRemoval = true)

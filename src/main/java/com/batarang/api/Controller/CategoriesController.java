@@ -5,6 +5,7 @@ import com.batarang.api.Service.Concrete.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -32,6 +33,7 @@ public class CategoriesController {
     }
 
     @PostMapping("/add")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public Category createCategory(@Valid @RequestBody Category category){
 
         return categoryService.Add(category);
@@ -39,6 +41,7 @@ public class CategoriesController {
     }
 
     @DeleteMapping("/delete/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public Map<String,Category> deleteCategory(@PathVariable(value = "id") Long id){
         Category category = categoryService.findById(id);
         categoryService.Delete(category);
@@ -48,6 +51,7 @@ public class CategoriesController {
     }
 
     @PutMapping("/update/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Category> updateCategory(@PathVariable(value = "id") Long id,@Valid @RequestBody Category updatedCategory){
 
         Category category = categoryService.findById(id);

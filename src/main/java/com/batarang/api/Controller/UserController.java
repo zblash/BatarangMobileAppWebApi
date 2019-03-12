@@ -1,11 +1,7 @@
 package com.batarang.api.Controller;
 
-import com.batarang.api.Model.CustomPrincipal;
-import com.batarang.api.Model.Role;
 import com.batarang.api.Model.User;
-import com.batarang.api.Security.JWTGenerator;
-import com.batarang.api.Service.Concrete.RoleService;
-import com.batarang.api.Service.Concrete.UserDetailsServiceImp;
+import com.batarang.api.Security.JWTAuthToken.JWTGenerator;
 import com.batarang.api.Service.Concrete.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,18 +15,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.util.Map;
 
 @RestController
 public class UserController {
 
     @Autowired
     private UserService userService;
-
-    @Autowired
-    private RoleService roleService;
-
-    @Autowired
-    private UserDetailsServiceImp userDetailsService;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -45,20 +36,15 @@ public class UserController {
 
     @PostMapping("/sign-up")
     public ResponseEntity<?> signUp(@Valid @RequestBody User user){
-        Role role = new Role();
-        role.setRoleName("ROLE_USER");
-        roleService.Add(role);
-        user.setRole(role);
         userService.Add(user);
         return new ResponseEntity<>(user, new HttpHeaders(), HttpStatus.OK);
     }
 
     @PostMapping("/signin")
-    public ResponseEntity<?> login(@Valid @RequestBody User user){
-        User userDetails = userService.findByUserName(user.getUserName());
+    public ResponseEntity<?> login(@RequestBody(required = true) Map<String,String> login){
+        User userDetails = userService.findByUserName(login.get("username"));
 
-        if (passwordEncoder.matches(user.getPassword(),userDetails.getPassword()))
-            if (passwordEncoder.matches(user.getPassword(),userDetails.getPassword())){
+        if (passwordEncoder.matches(login.get("password"),userDetails.getPassword())){
             String jwt= jwtGenerator.generate(userDetails);
             return new ResponseEntity<>(jwt, HttpStatus.OK);
         }
